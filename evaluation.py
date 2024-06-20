@@ -53,9 +53,7 @@ multicls = ['Hallmarks-of-Cancer']
 
 def mse_score(targets, preds):
     def extract_integers_from_string(s):
-        # 使用正则表达式找到所有整数
         integers = re.findall(r'\d+', s)
-        # 将找到的整数从字符串转换为整数类型
         integers = [int(num) for num in integers]
         return list(set(integers))
 
@@ -84,9 +82,7 @@ def mse_score(targets, preds):
 
 def post_bio(target, pred):
     def extract_tags(input_string):
-        # 定义正则表达式模式
         pattern = r'\[B\]|\[I\]|\[O\]'
-        # 使用 re.findall 查找所有匹配项
         matches = re.findall(pattern, input_string)
         return matches
 
@@ -130,20 +126,20 @@ def label_level_f1(targets, preds):
 
 
 def entity_level_f1(target, pred):
-    # 将列表转换为 Counter 对象
+    
     true_counter = Counter(target)
     pred_counter = Counter(pred)
 
-    # 计算 True Positives (TP): 取真实和预测的交集
+   
     tp = sum((true_counter & pred_counter).values())
 
-    # 计算 False Positives (FP): 预测中不在真实中的部分
+   
     fp = sum((pred_counter - true_counter).values())
 
-    # 计算 False Negatives (FN): 真实中不在预测中的部分
+    
     fn = sum((true_counter - pred_counter).values())
 
-    # 计算精确率、召回率和 F1 分数
+
     precision = tp / (tp + fp) if (tp + fp) > 0 else 0
     recall = tp / (tp + fn) if (tp + fn) > 0 else 0
     score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
